@@ -1,0 +1,39 @@
+/**
+ * Copyright (c) Microblink Ltd. All rights reserved.
+ */
+/**
+ * Copyright (c) Microblink Ltd. All rights reserved.
+ *
+ * SASS variables, not customizable via CSS variables
+ */
+/**
+ * Camera experiences
+ */
+:host {
+  display: none;
+}
+:host p {
+  margin: 4px 16px;
+  font-family: var(--mb-font-family);
+  font-size: var(--mb-feedback-font-size);
+  font-style: var(--mb-feedback-font-style);
+  font-weight: var(--mb-feedback-font-weight);
+  letter-spacing: var(--mb-feedback-letter-spacing);
+  line-height: var(--mb-feedback-line-height);
+  text-align: right;
+  text-transform: var(--mb-feedback-text-transform);
+}
+:host p.info {
+  color: var(--mb-feedback-font-color-info);
+}
+:host p.error {
+  color: var(--mb-feedback-font-color-error);
+}
+
+:host(.visible) {
+  display: block;
+}
+
+:host([dir=rtl]) p {
+  text-align: left;
+}

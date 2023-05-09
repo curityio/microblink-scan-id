@@ -1,0 +1,20 @@
+/**
+ * Copyright (c) Microblink Ltd. All rights reserved.
+ */
+/**
+ * Copyright (c) Microblink Ltd. All rights reserved.
+ *
+ * SASS variables, not customizable via CSS variables
+ */
+/**
+ * Camera experiences
+ */
+:host {
+  display: block;
+  padding: 0;
+}
+:host img {
+  display: block;
+  width: 24px;
+  height: 24px;
+}

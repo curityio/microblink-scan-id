@@ -1,0 +1,134 @@
+/**
+ * Copyright (c) Microblink Ltd. All rights reserved.
+ */
+/**
+ * Copyright (c) Microblink Ltd. All rights reserved.
+ *
+ * SASS variables, not customizable via CSS variables
+ */
+/**
+ * Camera experiences
+ */
+:host {
+  display: block;
+  font-family: inherit;
+  font-size: var(--mb-font-size);
+}
+:host * {
+  box-sizing: border-box;
+}
+:host .active-camera {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: var(--mb-toolbar-selection-width);
+  height: calc(var(--mb-line-height) + 8px + 2px);
+  margin: 0 auto;
+  color: var(--mb-toolbar-color);
+  line-height: var(--mb-line-height);
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--mb-toolbar-border-radius);
+}
+:host .active-camera .icon,
+:host .active-camera .name {
+  display: inline-block;
+  vertical-align: middle;
+}
+:host .active-camera .icon {
+  width: 20px;
+  height: 20px;
+}
+:host .active-camera .icon svg {
+  width: 20px;
+  height: 20px;
+}
+:host .active-camera .name {
+  max-width: calc(100% - 16px - 40px);
+  font-weight: var(--mb-toolbar-camera-name-font-weight);
+  padding: 0 8px 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:host .active-camera {
+  padding: 4px 16px;
+  background-color: transparent;
+}
+:host .active-camera:hover, :host .active-camera:active, :host .active-camera:focus {
+  background-color: rgba(107, 114, 128, 0.3);
+}
+:host .active-camera.active, :host .active-camera:active, :host .active-camera:focus {
+  padding: 4px 16px;
+  border-color: var(--mb-toolbar-border-color);
+}
+:host #list-background {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+:host #list-background.visible {
+  display: block;
+}
+:host .list {
+  display: none;
+  position: absolute;
+  top: calc(var(--mb-font-size) * 1.5 + 16px);
+  left: calc(50% - var(--mb-toolbar-selection-width) / 2);
+  width: var(--mb-toolbar-selection-width);
+  padding: 0;
+  background-color: var(--mb-toolbar-list-background);
+  border-radius: var(--mb-toolbar-border-radius);
+  box-shadow: var(--mb-toolbar-list-shadow);
+}
+:host .list.visible {
+  display: block;
+}
+:host .list svg,
+:host .list .name,
+:host .list .spacer {
+  display: inline-block;
+  vertical-align: middle;
+}
+:host .list .spacer,
+:host .list svg {
+  width: 24px;
+  height: 20px;
+}
+:host .list .name {
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+:host .list ul {
+  margin: 0;
+  padding: 8px;
+  border-radius: var(--mb-toolbar-list-border-radius);
+  list-style: none;
+}
+:host .list ul li {
+  display: block;
+}
+:host .list ul li.active {
+  color: #0062F2;
+}
+:host .list ul button {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: var(--mb-toolbar-list-item-border-radius);
+  padding: 4px 16px;
+  line-height: var(--mb-line-height);
+  cursor: pointer;
+}
+:host .list ul button:hover, :host .list ul button:focus {
+  background-color: rgba(116, 116, 128, 0.08);
+}

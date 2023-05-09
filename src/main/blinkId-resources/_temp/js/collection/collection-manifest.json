@@ -1,0 +1,28 @@
+{
+  "entries": [
+    "./components/blinkid-in-browser/blinkid-in-browser.js",
+    "./components/shared/mb-api-process-status/mb-api-process-status.js",
+    "./components/shared/mb-button/mb-button.js",
+    "./components/shared/mb-button-classic/mb-button-classic.js",
+    "./components/shared/mb-camera-experience/mb-camera-experience.js",
+    "./components/shared/mb-camera-selection/mb-camera-selection.js",
+    "./components/shared/mb-camera-toolbar/mb-camera-toolbar.js",
+    "./components/shared/mb-completed/mb-completed.js",
+    "./components/shared/mb-component/mb-component.js",
+    "./components/shared/mb-container/mb-container.js",
+    "./components/shared/mb-feedback/mb-feedback.js",
+    "./components/shared/mb-image-box/mb-image-box.js",
+    "./components/shared/mb-modal/mb-modal.js",
+    "./components/shared/mb-overlay/mb-overlay.js",
+    "./components/shared/mb-screen/mb-screen.js",
+    "./components/shared/mb-spinner/mb-spinner.js",
+    "./components/shared/mb-tooltip/mb-tooltip.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "2.12.0",
+    "typescriptVersion": "4.3.5"
+  },
+  "collections": [],
+  "bundles": []
+}
