@@ -33,6 +33,5 @@ public interface MicroblinkAuthenticationActionConfig extends Configuration {
     Bucket getBucket();
 
     @Description(("The Microblink BlinkID license key"))
-    @DefaultString("sRwAAAYWaWdnYm9tLWN1cml0eS5uZ3Jvay5pb815HXRDygbSukz/Rr2IGB/hcu/bK6jWXIziN6fQCYLCtNVSthcGyrUolLAqlolCTR9EzblNZ6pgI06Y+hFrrNapQsWYRP3u+ZqAIRJb3Q067GMtzm03c5BobrTE+0V1tSEZMVgwKYhTTzVqdWj8mm5BW/aznp2jHIEjrff7fSkYpG3w5ylc9QZbo/cpWCwaxDRniNFiXXpDJpYsRz5PiNje1htVGGWFmtU=")
     String getMicroblinkLicenseKey();
 }
