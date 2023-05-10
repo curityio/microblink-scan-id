@@ -1,0 +1,77 @@
+#*
+*  Copyright 2022 Curity AB
+*
+*  Licensed under the Apache License, Version 2.0 (the "License");
+*  you may not use this file except in compliance with the License.
+*  You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+*  Unless required by applicable law or agreed to in writing, software
+*  distributed under the License is distributed on an "AS IS" BASIS,
+*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*  See the License for the specific language governing permissions and
+*  limitations under the License.
+* <script type="module" src="https://unpkg.com/@microblink/blinkid-in-browser-sdk@5.20.0/ui/dist/blinkid-in-browser/blinkid-in-browser.esm.js"></script>
+*#
+
+#set ($page_symbol = "/assets/images/login-symbol-card.svg")
+
+#define ($_body)
+<script type="module" $nonceAttr src="/assets/js/blinkid-in-browser/blinkid-in-browser.esm.js"></script>
+<blinkid-in-browser></blinkid-in-browser>
+
+<form action="" method="post" class="display-none" id="pollingDone">
+    <input type="hidden" name="_pollingDone" value="true"/>
+</form>
+
+<script type="text/javascript" $nonceAttr>
+    async function postData(url, data) {
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        // submit the pollingDone form
+        document.getElementById("pollingDone").submit();
+    }
+
+    function run() {
+        const blinkId = document.querySelector("blinkid-in-browser");
+        blinkId.engineLocation = "/assets";
+        blinkId.workerLocation = "/assets/BlinkIDWasmSDK.worker.min.js";
+        blinkId.licenseKey = "$_blinkIdLicenseKey"
+        blinkId.recognizers = ['BlinkIdCombinedRecognizer']
+
+        blinkId.translations = {
+            'action-message': 'Start scan by clicking camera icon'
+        }
+
+        blinkId.scanFromImage = false;
+
+        blinkId.addEventListener(
+                "fatalError",
+                (ev) => console.error("fatalError", ev.detail));
+
+        blinkId.addEventListener(
+                "ready",
+                (ev) => console.info("ready", ev.detail));
+
+        blinkId.addEventListener(
+                "scanError",
+                (ev) => console.error("scanError", ev.detail));
+
+        blinkId.addEventListener(
+                "scanSuccess",
+                (ev) => {
+                    postData("$_blinkIdScanUrl", ev.detail)
+                });
+    }
+
+    window.addEventListener("DOMContentLoaded", (ev) => run());
+</script>
+#end
+
+#parse("layouts/default")
