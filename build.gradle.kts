@@ -7,6 +7,7 @@ plugins {
     `maven-publish`
 }
 
+
 repositories {
     mavenLocal()
     maven {
@@ -43,7 +44,34 @@ tasks.withType<Javadoc>() {
     options.encoding = "UTF-8"
 }
 
-tasks.register<Sync>("copyDependencies") {
+tasks.register<Sync>("copyDeps") {
     from(configurations.runtimeClasspath)
     into(layout.buildDirectory.dir("dependencies"))
+    finalizedBy("copyMicroblinkDeps", "cleanMicroblink")
+}
+
+tasks.clean.get().finalizedBy("cleanMicroblink")
+
+tasks.build.get().finalizedBy("installMicroblinkDeps")
+
+tasks.register<Exec>("installMicroblinkDeps") {
+    commandLine("npm", "install", "@microblink/blinkid-in-browser-sdk")
+}
+
+tasks.register<Sync>("copyMicroblinkDeps") {
+    copy{
+        from("node_modules/@microblink/blinkid-in-browser-sdk/resources")
+        into(layout.buildDirectory.dir("blinkId-resources"))
+    }
+    copy{
+        from("node_modules/@microblink/blinkid-in-browser-sdk/ui/dist")
+        into(layout.buildDirectory.dir("blinkId-resources/js/"))
+    }
+}
+
+tasks.register("cleanMicroblink"){
+    println("Cleaning up Microblink npm dependencies")
+    delete("node_modules")
+    delete("package.json")
+    delete("package-lock.json")
 }
