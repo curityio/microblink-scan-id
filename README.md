@@ -14,25 +14,26 @@ Configuring the action requires only two settings, a bucket and a Microblink Bli
 ## Building the Plugin
 
 ---
-You can build the plugin by issuing the command ``mvn package``. This will produce a JAR file in the ``target/usr/share/plugins/authenticationactions.microblink-scan-id`` directory,
+You can build the plugin by issuing the command ``./gradlew build``. This will produce a JAR file in the ``build/libs`` directory,
 which can be installed.
+
+## Dependencies
+
+---
+The dependencies can be obtained by running ``./gradlew copyDeps``. This will copy the Java dependencies into ``build/dependencies`` and install and copy the needed Microblink BlinkID front-end dependencies from `npm` into ``build/blinkId-resources``. 
 
 ## Installing the Plugin
 
 ---
 
-To install the plugin, copy the compiled JAR (and all of its dependencies) into the `${IDSVR_HOME}/usr/share/plugins/${pluginGroup}`
-on each node, including the admin node. For more information about installing plugins, refer to the [curity.io/plugins](https://support.curity.io/docs/latest/developer-guide/plugins/index.html#plugin-installation).
+To install the plugin, copy the compiled JAR and all of its dependencies into the `${IDSVR_HOME}/usr/share/plugins/${pluginGroup}`
+on each node, including the admin node. 
 
-## Required Dependencies
+Also copy the front-end dependencies into `${IDSVR_HOME}/usr/share/webroot/assets/`
+For more information about installing plugins, refer to the [curity.io/plugins](https://support.curity.io/docs/latest/developer-guide/plugins/index.html#plugin-installation).
 
----
-
-For a list of the dependencies and their versions, run ``mvn dependency:list``. Ensure that all of these are installed in
-the plugin group; otherwise, they will not be accessible to this plug-in and run-time errors will result.
-
-Building the plugin will also copy the dependencies to the ``target`` directory.
-
+## Build and deploy script
+A script (`build.sh`) is included in the project to help build and deploy. Open the script to configure the installation location of the Curity Identity Server and name of the plugin folder appropriately before executing. 
 ## License
 
 ---
