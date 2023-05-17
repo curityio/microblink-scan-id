@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Example IDSVR_ROOT=/opt/idsvr
-IDSVR_ROOT=/Users/iggbom/curity/idsvr-8.2.0-micro/idsvr
+IDSVR_ROOT=
 echo "IDSVR_ROOT is set to ${IDSVR_ROOT}"
 
 PLUGIN_DIR=microblink #The name of the folder to deploy the plugin to
