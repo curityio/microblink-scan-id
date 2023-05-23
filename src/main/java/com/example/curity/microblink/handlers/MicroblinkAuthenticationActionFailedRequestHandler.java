@@ -68,20 +68,18 @@ public class MicroblinkAuthenticationActionFailedRequestHandler implements Actio
     @Override
     public Optional<ActionCompletionResult> get(Request request, Response response)
     {
-//        MicroblinkAuthenticationActionFailedRequestModel.Get model = MicroblinkAuthenticationActionFailedRequestModel.getGetRequestModel();
-
         try {
             response.setResponseModel(mapResponseModel(Map.of(
-    //                ERROR_MESSAGE, HtmlEscapers.htmlEscaper().escape(model.getErrorMessage()),
                     ERROR_MESSAGE, HtmlEscapers.htmlEscaper().escape("An error occurred"), //TODO: A better error here
                     RESTART_URL, getUrlPath(request.getUrl())
             )), OK);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-
-        // clean up
-        cleanup(_sessionManager, _bucket);
+        finally {
+            // clean up
+            cleanup(_sessionManager, _bucket);
+        }
 
         return Optional.empty();
     }
