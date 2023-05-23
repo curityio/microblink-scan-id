@@ -23,8 +23,6 @@ import se.curity.identityserver.sdk.attribute.*;
 import se.curity.identityserver.sdk.authenticationaction.AuthenticationAction;
 import se.curity.identityserver.sdk.authenticationaction.AuthenticationActionContext;
 import se.curity.identityserver.sdk.authenticationaction.AuthenticationActionResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.curity.identityserver.sdk.service.*;
 
 import java.util.Map;
@@ -37,17 +35,12 @@ import static se.curity.identityserver.sdk.authenticationaction.completions.Requ
 
 public final class MicroblinkAuthenticationAction implements AuthenticationAction
 {
-    private final static Logger _logger = LoggerFactory.getLogger(MicroblinkAuthenticationAction.class);
     private final Bucket _bucket;
     private final SessionManager _sessionManager;
-    private final MicroblinkAuthenticationActionConfig _configuration;;
-    private final Json _json;
 
     public MicroblinkAuthenticationAction(MicroblinkAuthenticationActionConfig configuration)
     {
-        _configuration = configuration;
         _sessionManager = configuration.getSessionManager();
-        _json = configuration.getJson();
         _bucket = configuration.getBucket();
 
     }
