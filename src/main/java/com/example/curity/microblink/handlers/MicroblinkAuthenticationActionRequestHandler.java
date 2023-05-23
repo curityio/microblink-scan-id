@@ -110,12 +110,11 @@ public class MicroblinkAuthenticationActionRequestHandler implements ActionCompl
         if (scannedAttributes != null && scannedDocument != null)
         {
             @Nullable String scannedDocumentId = scannedDocument.getRecognizer().getDocumentId();
-            _logger.trace("DocumentId scanned from the Identity document : {}", scannedDocumentId);
 
             if (StringUtils.isBlank(scannedDocumentId))
             {
                 @Nullable String documentNumber = scannedDocument.getRecognizer().getDocumentNumber();
-                _logger.trace("documentNumber scanned from the Identity document : {}", documentNumber);
+                _logger.trace("DocumentId not found, using documentNumber");
 
                 _bucket.storeAttributes(documentNumber, BUCKET_PURPOSE_SCANNED_USER_ATTRS, scannedAttributes);
                 _sessionManager.put(Attribute.of(SCANNED_DOCUMENT_ID, documentNumber));
