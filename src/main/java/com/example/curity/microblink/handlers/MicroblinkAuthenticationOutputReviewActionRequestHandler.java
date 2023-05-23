@@ -23,8 +23,6 @@ import com.example.curity.microblink.models.OutputReviewActionRequestModel;
 import com.example.curity.microblink.models.Recognizer;
 import com.example.curity.microblink.models.ScannedDocument;
 import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.curity.identityserver.sdk.attribute.Attribute;
 import se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionRequestHandler;
 import se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionResult;
@@ -53,7 +51,6 @@ import static se.curity.identityserver.sdk.web.ResponseModel.templateResponseMod
 
 public class MicroblinkAuthenticationOutputReviewActionRequestHandler implements ActionCompletionRequestHandler<OutputReviewActionRequestModel>
 {
-    private final static Logger _logger = LoggerFactory.getLogger(MicroblinkAuthenticationOutputReviewActionRequestHandler.class);
     private final SessionManager _sessionManager;
     private final Bucket _bucket;
     private static final Gson gson = new Gson();
@@ -83,7 +80,6 @@ public class MicroblinkAuthenticationOutputReviewActionRequestHandler implements
     @Override
     public OutputReviewActionRequestModel preProcess(Request request, Response response)
     {
-        //TODO: Does this execute twice?
         String documentId = Optional.ofNullable(_sessionManager.get(SCANNED_DOCUMENT_ID))
                 .map(attribute -> attribute.getOptionalValueOfType(String.class))
                 .orElse("");
