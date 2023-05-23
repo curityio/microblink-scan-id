@@ -18,7 +18,6 @@
 package com.example.curity.microblink.config;
 
 import se.curity.identityserver.sdk.config.Configuration;
-import se.curity.identityserver.sdk.config.annotation.DefaultString;
 import se.curity.identityserver.sdk.config.annotation.Description;
 import se.curity.identityserver.sdk.service.*;
 
@@ -32,6 +31,6 @@ public interface MicroblinkAuthenticationActionConfig extends Configuration {
     @Description("Bucket to store state")
     Bucket getBucket();
 
-    @Description(("The Microblink BlinkID license key"))
+    @Description("The Microblink BlinkID license key")
     String getMicroblinkLicenseKey();
 }
