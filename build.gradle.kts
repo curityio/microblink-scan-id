@@ -43,34 +43,67 @@ tasks.withType<Javadoc>() {
     options.encoding = "UTF-8"
 }
 
-tasks.register<Sync>("copyDeps") {
-    from(configurations.runtimeClasspath)
-    into(layout.buildDirectory.dir("dependencies"))
-    finalizedBy("copyMicroblinkDeps", "cleanMicroblink")
+tasks.clean.get().finalizedBy("cleanMicroblink", "cleanCopiedMicroblinkFrontendResources")
+
+tasks.register<Copy>("copyMicroblinkFrontendDependencies") {
+    dependsOn("installMicroblinkDeps")
+
+    doFirst {
+        println("Copying frontend dependencies to resources dir")
+    }
+
+    from("node_modules/@microblink/blinkid-in-browser-sdk/resources")
+    into(layout.projectDirectory.dir("src/main/resources/webroot/assets"))
+
+    finalizedBy("cleanMicroblink")
 }
 
-tasks.clean.get().finalizedBy("cleanMicroblink")
+tasks.processResources.get().dependsOn("copyMicroblinkFrontendDependencies")
 
-tasks.build.get().finalizedBy("installMicroblinkDeps")
+tasks.register<Sync>("copyDependencies") {
+    from(configurations.runtimeClasspath)
+    into(layout.buildDirectory.dir("microblinkscanid"))
+}
+
+tasks.register<Copy>("copyJar") {
+    val jarTask = tasks.jar.get()
+    dependsOn(jarTask)
+
+    from(jarTask.destinationDirectory)
+    into(layout.buildDirectory.dir("microblinkscanid"))
+}
+
+tasks.register<GradleBuild>("buildPlugin") {
+    tasks = listOf(
+        "copyDependencies",
+        "copyJar"
+    )
+}
 
 tasks.register<Exec>("installMicroblinkDeps") {
     commandLine("npm", "install", "@microblink/blinkid-in-browser-sdk")
 }
 
-tasks.register<Sync>("copyMicroblinkDeps") {
-    copy{
-        from("node_modules/@microblink/blinkid-in-browser-sdk/resources")
-        into(layout.buildDirectory.dir("blinkId-resources"))
-    }
-    copy{
-        from("node_modules/@microblink/blinkid-in-browser-sdk/ui/dist")
-        into(layout.buildDirectory.dir("blinkId-resources/js/"))
+tasks.register("cleanMicroblink"){
+    doLast {
+        println("Cleaning up Microblink npm dependencies")
+        delete("node_modules")
+        delete("package.json")
+        delete("package-lock.json")
     }
 }
 
-tasks.register("cleanMicroblink"){
-    println("Cleaning up Microblink npm dependencies")
-    delete("node_modules")
-    delete("package.json")
-    delete("package-lock.json")
+tasks.register<Delete>("cleanCopiedMicroblinkFrontendResources") {
+
+    doLast {
+        println("Deleting Microblink assets from resources")
+    }
+
+    layout.projectDirectory.dir("src/main/resources/webroot/assets/").asFile.listFiles()?.forEach {
+        if (it.isDirectory) {
+            it.deleteRecursively()
+        } else if (it.name != ".gitignore") {
+            delete(it)
+        }
+    }
 }
