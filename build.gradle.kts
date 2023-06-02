@@ -43,22 +43,23 @@ tasks.withType<Javadoc>() {
     options.encoding = "UTF-8"
 }
 
-tasks.clean.get().finalizedBy("cleanMicroblink", "cleanCopiedMicroblinkFrontendResources")
+tasks.clean.get().finalizedBy("cleanMicroblink")
 
-tasks.register<Copy>("copyMicroblinkFrontendDependencies") {
+tasks.register<Copy>("copyMicroblinkUIResources") {
+    dependsOn("copyMicroblinkFrontendResources")
+
+    from("node_modules/@microblink/blinkid-in-browser-sdk/ui/dist")
+    into(layout.projectDirectory.dir("src/main/resources/webroot/assets/js"))
+}
+
+tasks.register<Copy>("copyMicroblinkFrontendResources") {
     dependsOn("installMicroblinkDeps")
-
-    doFirst {
-        println("Copying frontend dependencies to resources dir")
-    }
 
     from("node_modules/@microblink/blinkid-in-browser-sdk/resources")
     into(layout.projectDirectory.dir("src/main/resources/webroot/assets"))
-
-    finalizedBy("cleanMicroblink")
 }
 
-tasks.processResources.get().dependsOn("copyMicroblinkFrontendDependencies")
+tasks.processResources.get().dependsOn("copyMicroblinkUIResources")
 
 tasks.register<Sync>("copyDependencies") {
     from(configurations.runtimeClasspath)
@@ -76,7 +77,8 @@ tasks.register<Copy>("copyJar") {
 tasks.register<GradleBuild>("buildPlugin") {
     tasks = listOf(
         "copyDependencies",
-        "copyJar"
+        "copyJar",
+        "cleanMicroblink"
     )
 }
 
@@ -90,20 +92,6 @@ tasks.register("cleanMicroblink"){
         delete("node_modules")
         delete("package.json")
         delete("package-lock.json")
-    }
-}
-
-tasks.register<Delete>("cleanCopiedMicroblinkFrontendResources") {
-
-    doLast {
-        println("Deleting Microblink assets from resources")
-    }
-
-    layout.projectDirectory.dir("src/main/resources/webroot/assets/").asFile.listFiles()?.forEach {
-        if (it.isDirectory) {
-            it.deleteRecursively()
-        } else if (it.name != ".gitignore") {
-            delete(it)
-        }
+        delete("src/main/resources/webroot")
     }
 }
