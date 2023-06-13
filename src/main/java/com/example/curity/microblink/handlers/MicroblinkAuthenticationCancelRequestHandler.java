@@ -28,7 +28,7 @@ import java.net.MalformedURLException;
 import java.util.Optional;
 
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.MessageKeys.USER_CANCELLED;
-import static com.example.curity.microblink.Utils.getUrlPath;
+import static com.example.curity.microblink.Utils.stripLastPathPart;
 
 public class MicroblinkAuthenticationCancelRequestHandler implements ActionCompletionRequestHandler<Request> {
 
@@ -43,7 +43,7 @@ public class MicroblinkAuthenticationCancelRequestHandler implements ActionCompl
     public Optional<ActionCompletionResult> get(Request request, Response response) 
     {
         try {
-            throw _exceptionFactory.redirectException(getUrlPath(request.getUrl()) + "/failed?_errorMessage=" + USER_CANCELLED);
+            throw _exceptionFactory.redirectException(stripLastPathPart(request.getUrl()) + "/failed?_errorMessage=" + USER_CANCELLED);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

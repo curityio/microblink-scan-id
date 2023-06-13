@@ -30,9 +30,9 @@ public final class Utils
         sessionManager.remove(SCANNED_DOCUMENT).getOptionalValueOfType(String.class);
     }
 
-    public static String getUrlPath(String url) throws MalformedURLException
+    public static String stripLastPathPart(String fullPath) throws MalformedURLException
     {
-        String urlPath = new URL(url).getPath();
+        String urlPath = new URL(fullPath).getPath();
         return urlPath.substring(0,urlPath.lastIndexOf('/'));
     }
 }

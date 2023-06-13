@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.example.curity.microblink.Utils.cleanup;
-import static com.example.curity.microblink.Utils.getUrlPath;
+import static com.example.curity.microblink.Utils.stripLastPathPart;
 import static se.curity.identityserver.sdk.http.HttpStatus.OK;
 import static se.curity.identityserver.sdk.web.Response.ResponseModelScope.NOT_FAILURE;
 import static se.curity.identityserver.sdk.web.ResponseModel.mapResponseModel;
@@ -69,7 +69,7 @@ public class MicroblinkAuthenticationActionFailedRequestHandler implements Actio
         try {
             response.setResponseModel(mapResponseModel(Map.of(
                     ERROR_MESSAGE, HtmlEscapers.htmlEscaper().escape("An error occurred"), //TODO: A better error here
-                    RESTART_URL, getUrlPath(request.getUrl())
+                    RESTART_URL, stripLastPathPart(request.getUrl())
             )), OK);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);

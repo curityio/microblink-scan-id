@@ -42,7 +42,7 @@ import static com.example.curity.microblink.MicroblinkAuthenticationActionConsta
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.FormValueNames.CANCEL_URL;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SCANNED_DOCUMENT;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SESSION_KEY;
-import static com.example.curity.microblink.Utils.getUrlPath;
+import static com.example.curity.microblink.Utils.stripLastPathPart;
 import static se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionResult.complete;
 import static se.curity.identityserver.sdk.web.Response.ResponseModelScope.NOT_FAILURE;
 import static se.curity.identityserver.sdk.web.ResponseModel.templateResponseModel;
@@ -93,7 +93,7 @@ public class MicroblinkAuthenticationOutputReviewActionRequestHandler implements
                             DATE_OF_BIRTH, recognizer.getDateOfBirth().getDateOfBirth(),
                             DATE_OF_EXPIRY, recognizer.getDateOfExpiry().getDateOfExpiry(),
                             SEX, recognizer.getSex(),
-                            CANCEL_URL, getUrlPath(request.getUrl()) + "/" + CANCEL),
+                            CANCEL_URL, stripLastPathPart(request.getUrl()) + "/" + CANCEL),
                     "review-scan/review"), NOT_FAILURE);
 
         } catch (MalformedURLException e) {
