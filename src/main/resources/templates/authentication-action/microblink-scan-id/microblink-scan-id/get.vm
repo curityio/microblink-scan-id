@@ -18,14 +18,14 @@
 #set ($page_symbol = "/assets/images/login-symbol-card.svg")
 
 #define ($_body)
-<script type="module" $nonceAttr src="/assets/js/blinkid-in-browser/blinkid-in-browser.esm.js"></script>
+<script type="module" $_nonceAttr src="/assets/js/blinkid-in-browser/blinkid-in-browser.esm.js"></script>
 <blinkid-in-browser></blinkid-in-browser>
 
 <form action="" method="post" class="display-none" id="pollingDone">
     <input type="hidden" name="_pollingDone" value="true"/>
 </form>
 
-<script type="text/javascript" $nonceAttr>
+<script type="text/javascript" $_nonceAttr>
     async function postData(url, data) {
         await fetch(url, {
             method: 'POST',
@@ -43,7 +43,7 @@
         blinkId.engineLocation = "/assets";
         blinkId.workerLocation = "/assets/BlinkIDWasmSDK.worker.min.js";
         blinkId.licenseKey = "$_blinkIdLicenseKey"
-        blinkId.recognizers = ['BlinkIdCombinedRecognizer']
+        blinkId.recognizers = ['BlinkIdMultiSideRecognizer']
 
         blinkId.translations = {
             'action-message': 'Start scan by clicking camera icon'

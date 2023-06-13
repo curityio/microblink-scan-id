@@ -11,24 +11,23 @@ Configuring the action requires only two settings, a bucket and a Microblink Bli
 
 ## Building the Plugin
 
-You can build the plugin by issuing the command ``./gradlew build``. This will produce a JAR file in the ``build/libs`` directory,
-which can be installed.
-
-## Dependencies
-
-The dependencies can be obtained by running ``./gradlew copyDeps``. This will copy the Java dependencies into ``build/dependencies`` and install and copy the needed Microblink BlinkID front-end dependencies from `npm` into ``build/blinkId-resources``. 
+You can build the plugin by issuing the command ``./gradlew buildPlugin``. This will create a `build/microblinkscanid` folder with:
+- the plugin JAR bundled with all the required frontend dependencies,
+- all the required dependency JARs
 
 ## Installing the Plugin
 
-To install the plugin, copy the compiled JAR and all of its dependencies into the `${IDSVR_HOME}/usr/share/plugins/${pluginGroup}`
-on each node, including the admin node. 
+To install the plugin, copy the `build/microblinkscanid` dir into `${IDSVR_HOME}/usr/share/plugins/microblinkscanid`
+on each node, including the admin node.
 
-Also copy the front-end dependencies into `${IDSVR_HOME}/usr/share/webroot/assets/`
+If you're deploying using Docker, make sure that the `build/microblinkscanid` is copied or mounted to `/opt/idsvr/usr/share/plugins/microblinkscanid`.
+
 For more information about installing plugins, refer to the [curity.io/plugins](https://support.curity.io/docs/latest/developer-guide/plugins/index.html#plugin-installation).
 
-## Build and deploy script
+## Installation Script
 
-A script (`build.sh`) is included in the project to help build and deploy. Open the script to configure the installation location of the Curity Identity Server and name of the plugin folder appropriately before executing. 
+If you're running a local instance of the Curity Identity Server, you can use the `insatll-local.sh` script to build and install the plugin. Open the script to configure the installation location of the Curity Identity Server before executing. 
+
 ## License
 
 This plugin and its associated documentation is listed under the [Apache 2 license](https://github.com/curityio/microblink-scan-id/blob/main/LICENSE).
