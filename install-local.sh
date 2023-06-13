@@ -10,4 +10,4 @@ echo "Using ${PLUGIN_DIR} as plugin directory"
 ./gradlew clean buildPlugin
 
 echo "Copying plugin and dependencies to ${IDSVR_ROOT}/usr/share/plugins/${PLUGIN_DIR}"
-cp -r build/${PLUGIN_DIR} ${IDSVR_ROOT}/usr/share/plugins/${PLUGIN_DIR}
+cp -r build/${PLUGIN_DIR} ${IDSVR_ROOT}/usr/share/plugins/
