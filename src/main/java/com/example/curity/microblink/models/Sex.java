@@ -17,15 +17,12 @@
 
 package com.example.curity.microblink.models;
 
-import com.google.gson.annotations.SerializedName;
-
-public class DateOfExpiry
+public class Sex
 {
-    @SerializedName("originalString")
-    DateString dateOfExpiry;
+    private String latin;
 
-    public String getDateOfExpiry()
+    public String getSex()
     {
-        return dateOfExpiry.getDateString();
+        return latin;
     }
 }

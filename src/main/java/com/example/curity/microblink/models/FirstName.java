@@ -19,13 +19,13 @@ package com.example.curity.microblink.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DateOfExpiry
+public class FirstName
 {
-    @SerializedName("originalString")
-    DateString dateOfExpiry;
+    @SerializedName("latin")
+    private String firstName;
 
-    public String getDateOfExpiry()
+    public String getFirstName()
     {
-        return dateOfExpiry.getDateString();
+        return firstName;
     }
 }

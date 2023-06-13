@@ -23,10 +23,10 @@ import com.example.curity.microblink.models.OutputReviewActionRequestModel;
 import com.example.curity.microblink.models.Recognizer;
 import com.example.curity.microblink.models.ScannedDocument;
 import com.google.gson.Gson;
+import org.apache.commons.lang3.StringUtils;
 import se.curity.identityserver.sdk.attribute.Attribute;
 import se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionRequestHandler;
 import se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionResult;
-import se.curity.identityserver.sdk.service.Bucket;
 import se.curity.identityserver.sdk.service.SessionManager;
 import se.curity.identityserver.sdk.web.Request;
 import se.curity.identityserver.sdk.web.Response;
@@ -37,13 +37,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.BUCKET_PURPOSE_SCANNED_USER_ATTRS;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.Endpoints.CANCEL;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.FormFieldNames.*;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.FormValueNames.CANCEL_URL;
-import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SCANNED_DOCUMENT_ID;
+import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SCANNED_DOCUMENT;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SESSION_KEY;
-import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SubjectAttributes.*;
 import static com.example.curity.microblink.Utils.getUrlPath;
 import static se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionResult.complete;
 import static se.curity.identityserver.sdk.web.Response.ResponseModelScope.NOT_FAILURE;
@@ -52,13 +50,12 @@ import static se.curity.identityserver.sdk.web.ResponseModel.templateResponseMod
 public class MicroblinkAuthenticationOutputReviewActionRequestHandler implements ActionCompletionRequestHandler<OutputReviewActionRequestModel>
 {
     private final SessionManager _sessionManager;
-    private final Bucket _bucket;
+//    private final Bucket _bucket;
     private static final Gson gson = new Gson();
 
     public MicroblinkAuthenticationOutputReviewActionRequestHandler(MicroblinkAuthenticationActionConfig config)
     {
         _sessionManager = config.getSessionManager();
-        _bucket = config.getBucket();
     }
     @Override
     public Optional<ActionCompletionResult> get(OutputReviewActionRequestModel outputReviewActionRequestModel, Response response)
@@ -69,24 +66,24 @@ public class MicroblinkAuthenticationOutputReviewActionRequestHandler implements
     @Override
     public Optional<ActionCompletionResult> post(OutputReviewActionRequestModel outputReviewActionRequestModel, Response response)
     {
-        Map<String, Object> authenticatedUserAttributes = _bucket.getAttributes(_sessionManager.get(SCANNED_DOCUMENT_ID).getValueOfType(String.class), BUCKET_PURPOSE_SCANNED_USER_ATTRS);
-        authenticatedUserAttributes.put(SUBJECT_ATTRIBUTES_VERIFICATION, SUBJECT_ATTRIBUTES_VERIFICATION_VALUE);
-
         _sessionManager.put(Attribute.of(SESSION_KEY, true));
-
-      return  Optional.of(complete());
+        return  Optional.of(complete());
     }
 
     @Override
     public OutputReviewActionRequestModel preProcess(Request request, Response response)
     {
-        String documentId = Optional.ofNullable(_sessionManager.get(SCANNED_DOCUMENT_ID))
+        String attributes = Optional.ofNullable(_sessionManager.get(SCANNED_DOCUMENT))
                 .map(attribute -> attribute.getOptionalValueOfType(String.class))
                 .orElse("");
 
-        Map<String, Object> authenticatedUserAttributes = _bucket.getAttributes(documentId, BUCKET_PURPOSE_SCANNED_USER_ATTRS);
-        ScannedDocument scannedDocument = gson.fromJson(gson.toJson(authenticatedUserAttributes), ScannedDocument.class);
-        Recognizer recognizer = scannedDocument.getRecognizer();
+        Recognizer recognizer = gson.fromJson(attributes, ScannedDocument.class).getRecognizer();
+
+        String documentId = recognizer.getDocumentId();
+        if (StringUtils.isBlank(documentId))
+        {
+            documentId = recognizer.getDocumentNumber();
+        }
 
         try {
             response.setResponseModel(templateResponseModel(Map.of(

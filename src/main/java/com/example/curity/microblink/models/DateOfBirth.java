@@ -22,10 +22,10 @@ import com.google.gson.annotations.SerializedName;
 public class DateOfBirth
 {
     @SerializedName("originalString")
-    String dateOfBirth;
+    DateString dateOfBirth;
 
     public String getDateOfBirth()
     {
-        return dateOfBirth;
+        return dateOfBirth.getDateString();
     }
 }

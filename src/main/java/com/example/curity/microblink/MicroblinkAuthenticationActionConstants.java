@@ -38,7 +38,7 @@ public final class MicroblinkAuthenticationActionConstants {
 
     public static class SessionKeys
     {
-        public static final String SCANNED_DOCUMENT_ID = "scannedDocumentId";
+        public static final String SCANNED_DOCUMENT = "scannedDocument";
         public final static String SESSION_KEY = "MICROBLINK";
     }
 
@@ -63,7 +63,4 @@ public final class MicroblinkAuthenticationActionConstants {
     {
         public static final String USER_CANCELLED = "user.cancelled";
     }
-
-    public static final String BUCKET_PURPOSE_SCANNED_USER_ATTRS = "Authenticated scanned user attributes";
-
 }

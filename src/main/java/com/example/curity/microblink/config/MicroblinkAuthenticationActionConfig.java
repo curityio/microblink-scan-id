@@ -28,9 +28,6 @@ public interface MicroblinkAuthenticationActionConfig extends Configuration {
 
     ExceptionFactory getExceptionFactory();
 
-    @Description("Bucket to store state")
-    Bucket getBucket();
-
     @Description("The Microblink BlinkID license key")
     String getMicroblinkLicenseKey();
 }

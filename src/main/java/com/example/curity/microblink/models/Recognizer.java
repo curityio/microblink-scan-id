@@ -22,12 +22,12 @@ import com.google.gson.annotations.SerializedName;
 public class Recognizer
 {
     @SerializedName("personalIdNumber")
-    String documentId;
+    PersonalIdNumber documentId;
 
-    String documentNumber;
-    String firstName;
-    String lastName;
-    String sex;
+    DocumentNumber documentNumber;
+    FirstName firstName;
+    LastName lastName;
+    Sex sex;
     @SerializedName("classInfo")
     CountryDetails countryDetails;
     @SerializedName("dateOfBirth")
@@ -37,22 +37,22 @@ public class Recognizer
 
     public String getFullName()
     {
-        return firstName + " " + lastName;
+        return firstName.getFirstName() + " " + lastName.getLastName();
     }
 
     public String getDocumentId()
     {
-        return documentId;
+        return documentId.getPersonalIdNumber();
     }
 
     public String getDocumentNumber()
     {
-        return documentNumber;
+        return documentNumber.getDocumentNumber();
     }
 
     public String getSex()
     {
-        return sex;
+        return sex.getSex();
     }
 
     public CountryDetails getCountryDetails()

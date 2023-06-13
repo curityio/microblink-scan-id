@@ -19,15 +19,11 @@ package com.example.curity.microblink.handlers;
 
 import com.example.curity.microblink.config.MicroblinkAuthenticationActionConfig;
 import com.example.curity.microblink.models.ScanRequestModel;
-import com.example.curity.microblink.models.ScannedDocument;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.gson.Gson;
 import se.curity.identityserver.sdk.Nullable;
 import se.curity.identityserver.sdk.attribute.Attribute;
 import se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionRequestHandler;
 import se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionResult;
-import se.curity.identityserver.sdk.service.Bucket;
 import se.curity.identityserver.sdk.service.ExceptionFactory;
 import se.curity.identityserver.sdk.service.Json;
 import se.curity.identityserver.sdk.service.SessionManager;
@@ -40,31 +36,29 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.BUCKET_PURPOSE_SCANNED_USER_ATTRS;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.Endpoints.REVIEW_SCAN;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.FormValueNames.BLINKIDSCAN_URL;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.FormValueNames.BLINKID_LICENSE_KEY;
-import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SCANNED_DOCUMENT_ID;
+import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SCANNED_DOCUMENT;
 import static se.curity.identityserver.sdk.http.HttpStatus.ACCEPTED;
 import static se.curity.identityserver.sdk.web.Response.ResponseModelScope.ANY;
 
 
 public class MicroblinkAuthenticationActionRequestHandler implements ActionCompletionRequestHandler<ScanRequestModel>
 {
-    private final static Logger _logger = LoggerFactory.getLogger(MicroblinkAuthenticationActionRequestHandler.class);
     private final SessionManager _sessionManager;
     private final Json _json;
-    private final Bucket _bucket;
     private final ExceptionFactory _exceptionFactory;
     private final String _blinkIdLicenseKey;
     private String _urlPath;
+
+    private static final Gson gson = new Gson();
 
 
     public MicroblinkAuthenticationActionRequestHandler(MicroblinkAuthenticationActionConfig configuration)
     {
         _sessionManager = configuration.getSessionManager();
         _json = configuration.getJson();
-        _bucket = configuration.getBucket();
         _exceptionFactory = configuration.getExceptionFactory();
         _blinkIdLicenseKey = configuration.getMicroblinkLicenseKey();
     }
@@ -105,26 +99,8 @@ public class MicroblinkAuthenticationActionRequestHandler implements ActionCompl
         }
 
         @Nullable Map<String, Object> scannedAttributes = scanRequestModel.getPostRequestModel().getAttributes();
-        @Nullable ScannedDocument scannedDocument = scanRequestModel.getPostRequestModel().getScannedDocument();
 
-        if (scannedAttributes != null && scannedDocument != null)
-        {
-            @Nullable String scannedDocumentId = scannedDocument.getRecognizer().getDocumentId();
-
-            if (StringUtils.isBlank(scannedDocumentId))
-            {
-                @Nullable String documentNumber = scannedDocument.getRecognizer().getDocumentNumber();
-                _logger.trace("DocumentId not found, using documentNumber");
-
-                _bucket.storeAttributes(documentNumber, BUCKET_PURPOSE_SCANNED_USER_ATTRS, scannedAttributes);
-                _sessionManager.put(Attribute.of(SCANNED_DOCUMENT_ID, documentNumber));
-            }
-            else
-            {
-                _bucket.storeAttributes(scannedDocumentId, BUCKET_PURPOSE_SCANNED_USER_ATTRS, scannedAttributes);
-                _sessionManager.put(Attribute.of(SCANNED_DOCUMENT_ID, scannedDocumentId));
-            }
-        }
+        _sessionManager.put(Attribute.of(SCANNED_DOCUMENT,  gson.toJson(scannedAttributes)));
 
         return Optional.empty();
     }

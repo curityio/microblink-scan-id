@@ -24,7 +24,6 @@ import com.google.common.html.HtmlEscapers;
 
 import se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionRequestHandler;
 import se.curity.identityserver.sdk.authenticationaction.completions.ActionCompletionResult;
-import se.curity.identityserver.sdk.service.Bucket;
 import se.curity.identityserver.sdk.service.ExceptionFactory;
 import se.curity.identityserver.sdk.service.SessionManager;
 
@@ -47,13 +46,12 @@ import static com.example.curity.microblink.MicroblinkAuthenticationActionConsta
 
 public class MicroblinkAuthenticationActionFailedRequestHandler implements ActionCompletionRequestHandler<Request> {
     private final ExceptionFactory _exceptionFactory;
-    private final Bucket _bucket;
+
     private final SessionManager _sessionManager;
 
     public MicroblinkAuthenticationActionFailedRequestHandler(MicroblinkAuthenticationActionConfig config)
     {
         _exceptionFactory = config.getExceptionFactory();
-        _bucket = config.getBucket();
         _sessionManager = config.getSessionManager();
     }
 
@@ -77,8 +75,7 @@ public class MicroblinkAuthenticationActionFailedRequestHandler implements Actio
             throw new RuntimeException(e);
         }
         finally {
-            // clean up
-            cleanup(_sessionManager, _bucket);
+            cleanup(_sessionManager);
         }
 
         return Optional.empty();

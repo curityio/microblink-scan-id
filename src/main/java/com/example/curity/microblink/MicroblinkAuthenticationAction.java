@@ -18,6 +18,7 @@
 package com.example.curity.microblink;
 
 import com.example.curity.microblink.config.MicroblinkAuthenticationActionConfig;
+import com.google.gson.Gson;
 import se.curity.identityserver.sdk.Nullable;
 import se.curity.identityserver.sdk.attribute.*;
 import se.curity.identityserver.sdk.authenticationaction.AuthenticationAction;
@@ -27,22 +28,19 @@ import se.curity.identityserver.sdk.service.*;
 
 import java.util.Map;
 
-import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.BUCKET_PURPOSE_SCANNED_USER_ATTRS;
-import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SCANNED_DOCUMENT_ID;
+import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SCANNED_DOCUMENT;
 import static com.example.curity.microblink.MicroblinkAuthenticationActionConstants.SessionKeys.SESSION_KEY;
 import static com.example.curity.microblink.Utils.cleanup;
 import static se.curity.identityserver.sdk.authenticationaction.completions.RequiredActionCompletion.PromptUser.prompt;
 
 public final class MicroblinkAuthenticationAction implements AuthenticationAction
 {
-    private final Bucket _bucket;
     private final SessionManager _sessionManager;
+    private static final Gson gson = new Gson();
 
     public MicroblinkAuthenticationAction(MicroblinkAuthenticationActionConfig configuration)
     {
         _sessionManager = configuration.getSessionManager();
-        _bucket = configuration.getBucket();
-
     }
 
     @Override
@@ -52,9 +50,8 @@ public final class MicroblinkAuthenticationAction implements AuthenticationActio
 
         if (attributeView != null)
         {
-            Map<String, Object> authenticatedUserAttributes = _bucket.getAttributes(_sessionManager.get(SCANNED_DOCUMENT_ID).getValueOfType(String.class), BUCKET_PURPOSE_SCANNED_USER_ATTRS);
-
-            cleanup(_sessionManager, _bucket);
+            Map<String, Object> authenticatedUserAttributes = gson.fromJson(_sessionManager.get(SCANNED_DOCUMENT).getValueOfType(String.class), Map.class);
+            cleanup(_sessionManager);
             _sessionManager.remove(SESSION_KEY);
 
             return AuthenticationActionResult.successfulResult(context.getAuthenticationAttributes(),
