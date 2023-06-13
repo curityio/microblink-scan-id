@@ -26,7 +26,7 @@ For more information about installing plugins, refer to the [curity.io/plugins](
 
 ## Installation Script
 
-If you're running a local instance of the Curity Identity Server, you can use the `insatll-local.sh` script to build and install the plugin. Open the script to configure the installation location of the Curity Identity Server before executing. 
+If you're running a local instance of the Curity Identity Server, you can use the `install-local.sh` script to build and install the plugin. Open the script to configure the installation location of the Curity Identity Server before executing. 
 
 ## License
 
