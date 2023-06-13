@@ -19,7 +19,7 @@ dependencies {
     api("com.google.guava:guava:31.1-jre")
     api("com.google.code.gson:gson:2.10")
     api("org.apache.commons:commons-lang3:3.12.0")
-    compileOnly("se.curity.identityserver:identityserver.sdk:8.2.0")
+    compileOnly("se.curity.identityserver:identityserver.sdk:8.2.1")
     compileOnly("org.slf4j:slf4j-api:2.0.3")
     compileOnly("jakarta.validation:jakarta.validation-api:3.0.0")
 }
@@ -83,7 +83,7 @@ tasks.register<GradleBuild>("buildPlugin") {
 }
 
 tasks.register<Exec>("installMicroblinkDeps") {
-    commandLine("npm", "install", "@microblink/blinkid-in-browser-sdk")
+    commandLine("npm", "install", "@microblink/blinkid-in-browser-sdk@6.1.0")
 }
 
 tasks.register("cleanMicroblink"){
