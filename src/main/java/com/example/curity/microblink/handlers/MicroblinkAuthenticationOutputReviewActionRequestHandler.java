@@ -50,7 +50,6 @@ import static se.curity.identityserver.sdk.web.ResponseModel.templateResponseMod
 public class MicroblinkAuthenticationOutputReviewActionRequestHandler implements ActionCompletionRequestHandler<OutputReviewActionRequestModel>
 {
     private final SessionManager _sessionManager;
-//    private final Bucket _bucket;
     private static final Gson gson = new Gson();
 
     public MicroblinkAuthenticationOutputReviewActionRequestHandler(MicroblinkAuthenticationActionConfig config)

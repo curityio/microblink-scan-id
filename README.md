@@ -7,7 +7,7 @@ A custom authentication action plugin for the Curity Identity Server leveraging 
 
 ## Configuration
 
-Configuring the action requires only two settings, a bucket and a Microblink BlinkID in-browser SDK license. The bucket is used to store information temporary during the session and the data is cleared after authentication is completed.
+Configuring the action only requires one setting, a Microblink BlinkID in-browser SDK license. Obtain the license from Microblink.
 
 ## Building the Plugin
 

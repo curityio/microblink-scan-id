@@ -12,7 +12,6 @@
 *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
-* <script type="module" src="https://unpkg.com/@microblink/blinkid-in-browser-sdk@5.20.0/ui/dist/blinkid-in-browser/blinkid-in-browser.esm.js"></script>
 *#
 
 #set ($page_symbol = "/assets/images/login-symbol-card.svg")
