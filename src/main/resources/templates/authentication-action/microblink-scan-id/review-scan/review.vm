@@ -1,0 +1,92 @@
+#*
+*  Copyright 2022 Curity AB
+*
+*  Licensed under the Apache License, Version 2.0 (the "License");
+*  you may not use this file except in compliance with the License.
+*  You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+*  Unless required by applicable law or agreed to in writing, software
+*  distributed under the License is distributed on an "AS IS" BASIS,
+*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*  See the License for the specific language governing permissions and
+*  limitations under the License.
+*#
+
+#set ($page_symbol = "/assets/images/login-symbol-card.svg")
+
+#define ($_body)
+
+    #if ($_errors.toArray()[0]=='validation.error.civilId.required')
+        #set($_errorClass = "is-error is-error-danger")
+    #end
+
+    #parse("fragments/jquery")
+
+    #set($isHidden = "hidden")
+    #if ($error)
+        #set($isHidden = "not-hidden")
+    #end
+<div class="mt3 px3 lg-px4" id="user-error" $!isHidden>
+    <div class="alert alert-danger px4">
+        $!error<br>
+    </div>
+</div>
+
+<form method="post" action="">
+
+    <div class="sm-col-12 center">
+        <p>
+            #message("${_templatePrefix}.view.authenticate")
+        </p>
+    </div>
+
+    <label for="documentId" class="$!_errorClass">#message("${_templatePrefix}.view.documentId")</label>
+    <input type="text" id="documentId" name="documentId" readonly class="block full-width mb1 field-light $!_errorClass"
+           autocapitalize="none"
+           required
+           value="$!_documentId">
+
+    <label for="fullName" class="$!_errorClass">#message("${_templatePrefix}.view.fullName")</label>
+    <input type="text" id="fullName" name="fullName" readonly class="block full-width mb1 field-light $!_errorClass"
+           autocapitalize="none"
+           required
+           value="$!_fullName">
+
+    <label for="dateOfBirth" class="$!_errorClass">#message("${_templatePrefix}.view.dateOfBirth")</label>
+    <input type="text" id="dateOfBirth" name="dateOfBirth" readonly class="block full-width mb1 field-light $!_errorClass"
+           autocapitalize="none"
+           required
+           value="$!_dateOfBirth">
+
+    <label for="dateOfExpiry" class="$!_errorClass">#message("${_templatePrefix}.view.dateOfExpiry")</label>
+    <input type="text" id="dateOfExpiry" name="dateOfExpiry" readonly class="block full-width mb1 field-light $!_errorClass"
+           autocapitalize="none"
+           required
+           value="$!_dateOfExpiry">
+
+    <label for="sex" class="$!_errorClass">#message("${_templatePrefix}.view.sex")</label>
+    <input type="text" id="sex" name="sex" readonly class="block full-width mb1 field-light $!_errorClass"
+           autocapitalize="none"
+           required
+           value="$!_sex">
+
+    <label for="nationality" class="$!_errorClass">#message("${_templatePrefix}.view.nationality")</label>
+    <input type="text" id="nationality" name="nationality" readonly class="block full-width mb1 field-light $!_errorClass"
+           autocapitalize="none"
+           required
+           value="$!_nationality">
+
+    <button type="submit" class="button button-fullwidth button-primary">#message(
+        "${_templatePrefix}.view.submit")</button>
+
+    <div class="center py2 login-actions">
+        <a href="$_cancelUrl">
+            <i class="icon ion-refresh inlineicon"></i>#message("${_templatePrefix}.view.cancel")
+        </a>
+    </div>
+</form>
+#end
+
+#parse("layouts/default")
